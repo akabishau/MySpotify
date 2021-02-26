@@ -15,7 +15,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         let window = UIWindow(frame: UIScreen.main.bounds)
-        window.rootViewController = TabBarVC()
+        if AuthManager.shared.isSignedIn {
+            window.rootViewController = TabBarVC()
+        } else {
+            let navigationController = UINavigationController(rootViewController: WelcomeVC())
+            navigationController.navigationBar.prefersLargeTitles = true
+            navigationController.viewControllers.first?.navigationItem.largeTitleDisplayMode = .always
+            window.rootViewController = navigationController
+        }
         window.makeKeyAndVisible()
         self.window = window
         
